@@ -50,7 +50,7 @@ public class Question {
      }
      public Question (int qId, double qMark, String qContent) throws QuestionException{
          this.setQId(qId);
-         this.setQId(qId);
+         this.setQMark(qMark);
          this.setQContent(qContent);
 }
      @Override
