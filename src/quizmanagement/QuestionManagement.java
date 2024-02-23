@@ -143,16 +143,28 @@ public class QuestionManagement {
         str += q.toString();
         
         char aNo = 'a';
-        for (int i = 0; i < aList.size(); i++) {
+        for (int i = 0; i < aList.size(); i++,aNo++) {
+            str += "   " + aNo + ".  " +aList.get(i).toString();
+        }
+        return str;
+    }
+     public String showQuestion ( int qId, ArrayList<Answer> aList) {
+        Question q = getQuestion(qId);
+        
+        String str = "";
+        
+        str += q.toString();
+        
+        char aNo = 'a';
+        for (int i = 0; i < aList.size(); i++,aNo++) {
             str += "   " + aNo + ".  " +aList.get(i).toString();
         }
         return str;
     }
     
-    
     public  void showQuestionsBank() {
         int qNo = 1;
-        for (int i = 0; i < this.questions.size(); i++) {
+        for (int i = 0; i < this.questions.size(); i++,qNo++) {
             Question q  = this.questions.get(i);
             System.out.println(qNo + ".   " +showQuestion(q.getQId(), false));
         }
