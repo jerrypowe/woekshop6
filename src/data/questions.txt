@@ -1,4 +1,4 @@
-10
+11
 1
 Which of the following is an example of web browser?
 1.0
@@ -28,4 +28,7 @@ Which is not a CSS selector?
 1.0
 10
 Which is not Java's access modifier?
+1.0
+11
+What?
 1.0

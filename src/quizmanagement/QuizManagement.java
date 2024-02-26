@@ -20,13 +20,14 @@ public class QuizManagement {
     /**
      * @param args the command line arguments
      */
-    @SuppressWarnings("empty-statement")
+   
     public static void main(String[] args) throws QuestionException {
         try {
             am = new AnswerManagement("src/data/answers.txt");
             am.loadAnswers();
 
-            qm = new QuestionManagement("src/data/questions.txt", am);
+            qm = new QuestionManagement("src/data/questions.txt",am);
+            qm.loadQuestion();
             Scanner cin = new Scanner(System.in);
             int func;
             do {
@@ -39,11 +40,12 @@ public class QuizManagement {
                 System.out.println("Please select a function: ");
                 func = cin.nextInt();
                 cin.nextLine();
-                String strUserEnterd = "";
+                String strUserEntered = "";
                 switch (func) {
                     case 1: {
                         System.out.println("----QUIZ MANAGEMENT [ADD NEW QUESTION]----");
-
+                        int count = 0;
+                        
                         String qContent = "";
                         double qMark = 0.0;
 
@@ -70,6 +72,7 @@ public class QuizManagement {
                         System.out.println("+++ [ADD ANSWERS FOR QUESTION] +++");
                         int aNo = 0;
                         do {
+                            count++;
                             aNo++;
                             System.out.println("...Answer " + aNo + "...");
                             String aContent = "";
@@ -85,30 +88,34 @@ public class QuizManagement {
 
                             do {
                                 System.out.println("Is this answer True or False? (True/False) ");
-                                strUserEnterd = cin.nextLine();
-                                if (strUserEnterd.equals("True")) {
+                                strUserEntered = cin.nextLine();
+                                if(strUserEntered.equals("True")) {
                                     aStatus = true;
 
-                                } else if (strUserEnterd.equals("False")) {
+                                } else if (strUserEntered.equals("False")) {
                                     aStatus = false;
                                 } else {
 
                                     System.out.println("Error: You must type 'True' or 'False'!");
 
                                 }
-                            } while (!(strUserEnterd.equals("True")) || strUserEnterd.equals("False"));
+                            } while (!(strUserEntered.equals("True") || strUserEntered.equals("False")));
 
                             am.addAnswer(qContent, true, qId);
 
                             do {
                                 System.out.println("Do you want to add more answer? (Yes/No) ");
-                                strUserEnterd = cin.nextLine();
-                                if ((!(strUserEnterd.equals("Yes") || strUserEnterd.equals("No")))) {
+                                strUserEntered = cin.nextLine();
+                                if ((!(strUserEntered.equals("Yes") || strUserEntered.equals("No")))) {
                                     System.out.println("Error: You must type 'Yes' or 'No'!");
                                 }
-                            } while (!(strUserEnterd.equals("Yes") || strUserEnterd.equals("No")));
-
-                        } while (strUserEnterd.equals("Yes"));
+                                
+                            } while (!(strUserEntered.equals("Yes") || strUserEntered.equals("No")));
+                             if (aNo < 2 && strUserEntered.equals("No")){
+                                    System.out.println("There must be more than 1 answer!");
+                                    System.out.println("Please enter 1 more answer: ");
+                                }
+                        } while (!(strUserEntered.equals("No")&& aNo >=2) );
                         break;
 
 //                  System.out.println("+++ The test is genarating...");
@@ -129,9 +136,7 @@ public class QuizManagement {
                         qm.showQuestionsBank();
                     }
                     break;
-                    case 3: {
-                    }
-                    int totalQuestionNumbers = qm.getSize();
+                    case 3:                    int totalQuestionNumbers = qm.getSize();
                     int qNumbers = 0;
                     boolean isRandom = false;
                     double mark = 0.0;
@@ -149,14 +154,14 @@ public class QuizManagement {
 
                     do {
                         System.out.println("Do you want tgo shuffle the test ? (True/False) ");
-                        strUserEnterd = cin.nextLine();
-                        if (strUserEnterd.equals("True")) {
+                        strUserEntered = cin.nextLine();
+                        if (strUserEntered.equals("True")) {
                             isRandom = false;
 
                         } else {
                             System.out.println("Error : You must type 'True' or 'False'!");
                         }
-                    } while (!(strUserEnterd.equals("True") || strUserEnterd.equals("False")));
+                    } while (!(strUserEntered.equals("True") || strUserEntered.equals("False")));
 
                     System.out.println("+++ The test is generating...");
                     ArrayList<Question> qList = qm.getQuestionBank(qNumbers, isRandom);
@@ -169,10 +174,10 @@ public class QuizManagement {
                     int qNo = 1;
                     char ans,
                      last;
-                    int qId = qm.addQuestion(mark, strUserEnterd);
+//                    int qId = qm.addQuestion(mark, strUserEnterd);
                     for (int i = 0; i < qList.size(); i++, qNo++) {
                         q = qList.get(i);
-                        qId = q.getQId();
+                        int qId = q.getQId();
                         aList = am.getAnswers(qId, isRandom);
 
                         System.out.println("##################");
